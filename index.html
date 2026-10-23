@@ -17,6 +17,21 @@
     .install{position:fixed;right:14px;bottom:14px;z-index:10;display:none;border:0;border-radius:999px;background:#0f766e;color:#fff;padding:12px 16px;font-weight:700;box-shadow:0 4px 16px #0002}
     @media(max-width:768px){.app{height:100vh;height:100dvh}.install{right:10px;bottom:10px;padding:11px 14px}}
   </style>
+  
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#0f766e">
+
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js")
+        .catch((error) => {
+          console.error("Service worker gagal didaftarkan:", error);
+        });
+    });
+  }
+</script>
+
 </head>
 <body>
   <main class="app">
