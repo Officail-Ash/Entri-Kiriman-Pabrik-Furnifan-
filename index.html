@@ -1,83 +1,42 @@
-```html
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Catatan Kiriman Pabrik Furnifan Mebel Surabaya</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            min-height: 100%;
-            overflow: hidden;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #ffffff;
-        }
-
-        /* CONTAINER MEMENUHI SELURUH LAYAR */
-        .container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            height: 100vh;
-            height: 100dvh;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-
-        /* APLIKASI GOOGLE APPS SCRIPT */
-        iframe {
-            display: block;
-            width: 100%;
-            height: 100%;
-            border: none;
-            margin: 0;
-            padding: 0;
-            background: #ffffff;
-        }
-
-        /* HP DAN TABLET */
-        @media screen and (max-width: 768px) {
-            .container {
-                width: 100%;
-                height: 100%;
-                height: 100vh;
-                height: 100dvh;
-            }
-
-            iframe {
-                width: 100%;
-                height: 100%;
-            }
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="description" content="Catatan Kiriman Pabrik Furnifan Mebel Surabaya">
+  <title>Catatan Kiriman Pabrik - Furnifan Mebel Surabaya</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="https://drive.google.com/uc?export=view&id=1oPGEYT85YIezeTQxfzx0KfkUNlQOJLW-">
+  <link rel="apple-touch-icon" href="https://drive.google.com/uc?export=view&id=1oPGEYT85YIezeTQxfzx0KfkUNlQOJLW-">
+  <style>
+    *{box-sizing:border-box}
+    html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#fff;font-family:Arial, sans-serif}
+    .app{position:fixed;inset:0;width:100%;height:100vh;height:100dvh;background:#fff;overflow:hidden}
+    iframe{display:block;width:100%;height:100%;border:0;margin:0;padding:0;background:#fff}
+    .install{position:fixed;right:14px;bottom:14px;z-index:10;display:none;border:0;border-radius:999px;background:#0f766e;color:#fff;padding:12px 16px;font-weight:700;box-shadow:0 4px 16px #0002}
+    @media(max-width:768px){.app{height:100vh;height:100dvh}.install{right:10px;bottom:10px;padding:11px 14px}}
+  </style>
 </head>
-
 <body>
-
-    <div class="container">
-        <iframe
-            src="https://script.google.com/macros/s/AKfycbyzef2GFCzmMrH-aQMIO3ycQoTDGvZY_iEpPpNByhkWNWaFm_-_vpH1qcvtU671qNjO/exec"
-            allowfullscreen>
-        </iframe>
-    </div>
-
+  <main class="app">
+    <iframe src="https://script.google.com/macros/s/AKfycbxwMOg6Ij_uxwdn9JMVSDRWWt7NulD-626qMoXvKpVTbm4DgiJc68GXytgCU6EmgVe0/exec" title="Catatan Kiriman Pabrik Furnifan Mebel Surabaya" allowfullscreen></iframe>
+  </main>
+  <button id="installBtn" class="install" type="button">＋ Pasang Aplikasi</button>
+  <script>
+    let installPrompt=null;
+    const installBtn=document.getElementById('installBtn');
+    window.addEventListener('beforeinstallprompt',event=>{
+      event.preventDefault(); installPrompt=event; installBtn.style.display='block';
+    });
+    installBtn.addEventListener('click',async()=>{
+      if(!installPrompt){alert('Untuk memasang aplikasi, buka menu browser lalu pilih “Install app” atau “Tambahkan ke layar utama”.');return;}
+      installPrompt.prompt(); await installPrompt.userChoice; installPrompt=null; installBtn.style.display='none';
+    });
+    window.addEventListener('appinstalled',()=>{installBtn.style.display='none';installPrompt=null;});
+    if('serviceWorker' in navigator && location.protocol==='https:'){
+      window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+    }
+  </script>
 </body>
 </html>
-```
