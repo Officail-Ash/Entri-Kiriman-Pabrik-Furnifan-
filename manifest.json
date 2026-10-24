@@ -1,9 +1,9 @@
 
 {
   "id": "./",
-  "name": "Catatan Kiriman Pabrik Furnifan",
-  "short_name": "Kiriman Furnifan",
-  "description": "Aplikasi catatan kiriman pabrik Furnifan Mebel Surabaya",
+  "name": "Catatan Kiriman Furnifan",
+  "short_name": "Catatan Kiriman",
+  "description": "Aplikasi Catatan Kiriman Pabrik Furnifan Mebel Surabaya",
   "lang": "id-ID",
   "start_url": "./index.html",
   "scope": "./",
