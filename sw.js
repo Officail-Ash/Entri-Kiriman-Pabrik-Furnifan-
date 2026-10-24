@@ -1,66 +1,70 @@
-const CACHE_NAME = 'furnifan-catatan-shell-v2';
 
-const SHELL = [
-  './',
-  './index.html',
-  './manifest.json',
-  './icon-192.png',
-  './icon-512.png'
+const CACHE_NAME = "furnifan-catatan-pwa-v1";
+
+const APP_FILES = [
+  "./",
+  "./index.html",
+  "./manifest.json",
+  "./icon-192.png",
+  "./icon-512.png"
 ];
 
-// Instalasi service worker dan cache file utama
-self.addEventListener('install', event => {
+self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(SHELL))
+      .then((cache) => cache.addAll(APP_FILES))
       .then(() => self.skipWaiting())
   );
 });
 
-// Aktivasi dan penghapusan cache versi lama
-self.addEventListener('activate', event => {
+self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys()
-      .then(keys =>
-        Promise.all(
-          keys
-            .filter(key => key !== CACHE_NAME)
-            .map(key => caches.delete(key))
-        )
-      )
+      .then((keys) => Promise.all(
+        keys
+          .filter((key) =>
+            key.startsWith("furnifan-catatan-pwa-") &&
+            key !== CACHE_NAME
+          )
+          .map((key) => caches.delete(key))
+      ))
       .then(() => self.clients.claim())
   );
 });
 
-// Menangani permintaan file dari aplikasi
-self.addEventListener('fetch', event => {
+self.addEventListener("fetch", (event) => {
   const request = event.request;
   const url = new URL(request.url);
 
-  // Hanya menangani GET dari domain aplikasi sendiri
+  // Hanya cache file milik GitHub Pages pada scope aplikasi ini.
   if (
-    request.method !== 'GET' ||
+    request.method !== "GET" ||
     url.origin !== self.location.origin
   ) {
     return;
   }
 
-  // Jangan mengganggu permintaan navigasi ke halaman lain
   event.respondWith(
-    caches.match(request).then(cachedResponse => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
+    fetch(request)
+      .then((response) => {
+        if (response.ok) {
+          const copy = response.clone();
+          caches.open(CACHE_NAME)
+            .then((cache) => cache.put(request, copy))
+            .catch(() => {});
+        }
+        return response;
+      })
+      .catch(async () => {
+        const cached = await caches.match(request);
+        if (cached) return cached;
 
-      return fetch(request).catch(() => {
-        // Jika halaman utama gagal dimuat, gunakan halaman cache
-        if (request.mode === 'navigate') {
-          return caches.match('./index.html');
+        if (request.mode === "navigate") {
+          const shell = await caches.match("./index.html");
+          if (shell) return shell;
         }
 
-        // File lain yang tidak tersedia akan tetap menghasilkan error jaringan
-        throw new Error('File tidak tersedia saat offline');
-      });
-    })
+        return Response.error();
+      })
   );
 });
