@@ -1,8 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
   <meta name="theme-color" content="#0f766e">
   <meta name="description" content="Catatan Kiriman Pabrik Furnifan Mebel Surabaya">
 
@@ -15,73 +17,44 @@
   <style>
     :root {
       --primary: #0f766e;
-      --bg: #f1f5f9;
-      --header-height: 58px;
+      --primary-dark: #115e59;
+      --primary-light: #2dd4bf;
+      --pink: #ec4899;
+      --pink-light: #fbcfe8;
+      --white: #ffffff;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-    html, body {
+    html,
+    body {
       margin: 0;
       padding: 0;
       width: 100%;
       height: 100%;
-      font-family: Arial, sans-serif;
-      background: var(--bg);
       overflow: hidden;
+      background: #ffffff;
+      font-family: "Segoe UI", Arial, sans-serif;
     }
 
     body {
-      display: flex;
-      flex-direction: column;
+      height: 100vh;
       height: 100dvh;
       min-height: 0;
     }
 
-    header {
-      min-height: var(--header-height);
-      padding: 8px 14px;
-      padding-top: max(8px, env(safe-area-inset-top));
-      background: var(--primary);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      box-shadow: 0 2px 8px #0002;
-      z-index: 2;
-    }
-
-    .brand {
-      font-size: 15px;
-      font-weight: 700;
-      line-height: 1.35;
-    }
-
-    .brand small {
-      display: block;
-      font-size: 11px;
-      font-weight: 400;
-      opacity: .9;
-    }
-
-    #installBtn {
-      display: none;
-      flex-shrink: 0;
-      border: 0;
-      border-radius: 8px;
-      padding: 10px 12px;
-      background: white;
-      color: var(--primary);
-      font-weight: 700;
-      cursor: pointer;
-    }
-
+    /* APLIKASI MEMENUHI SELURUH LAYAR */
     main {
-      flex: 1;
-      min-height: 0;
-      position: relative;
-      background: white;
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      background: #ffffff;
     }
 
     #appFrame {
@@ -89,51 +62,236 @@
       width: 100%;
       height: 100%;
       border: 0;
-      background: white;
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
     }
 
+    /* LAYAR PEMUATAN */
     #loading {
       position: absolute;
       inset: 0;
-      z-index: 1;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      padding: 24px;
+      text-align: center;
+      background: #f0fdfa;
+      color: #134e4a;
+    }
+
+    #loading.hidden {
+      display: none;
+    }
+
+    .loading-logo {
+      width: 70px;
+      height: 70px;
       display: flex;
       align-items: center;
       justify-content: center;
-      text-align: center;
-      padding: 24px;
-      background: white;
-      color: #475569;
-      font-size: 14px;
+      border-radius: 21px;
+      background: linear-gradient(
+        135deg,
+        var(--primary-dark),
+        var(--primary-light)
+      );
+      box-shadow: 0 8px 25px rgba(15, 118, 110, .20);
+      position: relative;
     }
 
-    #loading.hidden { display: none; }
+    .loading-logo::after {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      right: -3px;
+      top: -3px;
+      border-radius: 50%;
+      background: var(--pink);
+      border: 2px solid #ffffff;
+    }
 
-    @media (max-width: 480px) {
-      header {
-        padding-left: 10px;
-        padding-right: 10px;
+    .loading-logo svg {
+      width: 38px;
+      height: 38px;
+    }
+
+    .loading-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .loading-subtitle {
+      max-width: 300px;
+      color: #64748b;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .spinner {
+      width: 29px;
+      height: 29px;
+      border: 3px solid #ccfbf1;
+      border-top-color: var(--primary);
+      border-right-color: var(--pink);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* TOMBOL INSTAL MENGAMBANG */
+    #installBtn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      position: fixed;
+      left: 22px;
+      right: auto;
+      bottom: max(22px, env(safe-area-inset-bottom));
+      z-index: 9999;
+      padding: 13px 19px;
+      border: 1px solid rgba(255, 255, 255, .65);
+      border-radius: 50px;
+      background: linear-gradient(
+        135deg,
+        #115e59 0%,
+        #0f766e 65%,
+        #159e91 100%
+      );
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .1px;
+      box-shadow:
+        0 7px 22px rgba(15, 118, 110, .28),
+        0 0 0 2px rgba(251, 207, 232, .55);
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s, opacity .2s;
+    }
+
+    #installBtn::before {
+      content: "";
+      position: absolute;
+      top: -3px;
+      right: 17px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--pink);
+      border: 1px solid #ffffff;
+    }
+
+    #installBtn:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        0 10px 27px rgba(15, 118, 110, .34),
+        0 0 0 3px rgba(251, 207, 232, .7);
+    }
+
+    #installBtn:active {
+      transform: scale(.96);
+    }
+
+    #installBtn:focus-visible {
+      outline: 3px solid var(--pink-light);
+      outline-offset: 3px;
+    }
+
+    #installBtn:disabled {
+      opacity: .7;
+      cursor: wait;
+    }
+
+    .install-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* PONSEL */
+    @media (max-width: 600px) {
+      #installBtn {
+        left: 14px;
+        right: auto;
+        bottom: max(16px, env(safe-area-inset-bottom));
+        padding: 12px 16px;
+        font-size: 12px;
+        gap: 7px;
       }
 
-      .brand { font-size: 13px; }
-      .brand small { font-size: 10px; }
-      #installBtn { padding: 9px; font-size: 12px; }
+      .install-icon {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    /* LAYAR SANGAT KECIL */
+    @media (max-width: 350px) {
+      #installBtn {
+        left: 10px;
+        right: auto;
+        bottom: max(12px, env(safe-area-inset-bottom));
+        padding: 11px 13px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <div class="brand">
-      CATATAN KIRIMAN FURNIFAN
-      <small>Mebel Surabaya</small>
+  <main>
+    <!-- LAYAR PEMUATAN -->
+    <div id="loading" role="status" aria-live="polite">
+      <div class="loading-logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"
+             xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 20V8.5L12 4L20 8.5V20"
+                stroke="white"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"/>
+          <path d="M8 20V13H16V20"
+                stroke="white"
+                stroke-width="1.7"
+                stroke-linejoin="round"/>
+          <path d="M8 9H8.01M12 9H12.01M16 9H16.01"
+                stroke="#fbcfe8"
+                stroke-width="2.5"
+                stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <div class="loading-title">Catatan Kiriman Furnifan</div>
+
+      <div class="spinner" aria-hidden="true"></div>
+
+      <div class="loading-subtitle">
+        Menghubungkan ke sistem catatan kiriman.
+        Mohon tunggu sebentar...
+      </div>
     </div>
 
-    <button id="installBtn" type="button">⬇ Instal Aplikasi</button>
-  </header>
-
-  <main>
-    <div id="loading">Menghubungkan ke aplikasi Furnifan...</div>
-
+    <!-- APLIKASI GOOGLE APPS SCRIPT -->
     <iframe
       id="appFrame"
       title="Aplikasi Catatan Kiriman Furnifan"
@@ -143,57 +301,157 @@
     </iframe>
   </main>
 
+  <!-- TOMBOL INSTAL KIRI BAWAH -->
+  <button id="installBtn" type="button">
+    <svg class="install-icon"
+         viewBox="0 0 24 24"
+         fill="none"
+         xmlns="http://www.w3.org/2000/svg"
+         aria-hidden="true">
+      <path d="M12 3V15M7 10L12 15L17 10"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"/>
+      <path d="M5 16V20H19V16"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"/>
+    </svg>
+    <span>Instal Aplikasi</span>
+  </button>
+
   <script>
+    "use strict";
+
     /*
-      GANTI URL DI BAWAH DENGAN URL WEB APP APPS SCRIPT
-      KHUSUS CATATAN KIRIMAN PABRIK FURNIFAN.
+      PENTING:
+      Ganti URL di bawah dengan URL Web App CATATAN KIRIMAN FURNIFAN.
+      Jangan gunakan URL Daftar Harga Furnifan.
     */
     const APP_URL =
-      "https://script.google.com/macros/s/AKfycbwqRw_5QnkmQUJE3zCzVcOwHJ8q2ukc9gL0JBt5zKvwMriwvbj24LdwW7oWJFtG9vor/exec";
+      "GANTI_DENGAN_URL_WEB_APP_CATATAN_KIRIMAN";
 
     const frame = document.getElementById("appFrame");
     const loading = document.getElementById("loading");
+    const loadingTitle = loading.querySelector(".loading-title");
+    const loadingSubtitle = loading.querySelector(".loading-subtitle");
+    const spinner = loading.querySelector(".spinner");
     const installBtn = document.getElementById("installBtn");
 
-    if (!APP_URL.startsWith("https://script.google.com/")) {
-      loading.textContent =
-        "URL Apps Script belum diatur. Silakan periksa konfigurasi index.html.";
-    } else {
-      frame.src = APP_URL;
-
-      frame.addEventListener("load", () => {
-        loading.classList.add("hidden");
-      });
-    }
-
+    let loadingFinished = false;
+    let loadingTimeout = null;
     let installPrompt = null;
 
+    /* MENUTUP LAYAR PEMUATAN */
+    function finishLoading() {
+      if (loadingFinished) return;
+
+      loadingFinished = true;
+
+      if (loadingTimeout) {
+        clearTimeout(loadingTimeout);
+      }
+
+      loading.classList.add("hidden");
+    }
+
+    /* MEMUAT APLIKASI UTAMA */
+    const validAppUrl =
+      APP_URL.startsWith("https://script.google.com/macros/s/") &&
+      APP_URL.endsWith("/exec");
+
+    if (validAppUrl) {
+      frame.addEventListener("load", finishLoading, { once: true });
+
+      loadingTimeout = setTimeout(() => {
+        if (loadingFinished) return;
+
+        loadingTitle.textContent =
+          "Aplikasi membutuhkan waktu lebih lama";
+
+        loadingSubtitle.textContent =
+          "Periksa koneksi internet. Jika aplikasi belum terbuka, " +
+          "muat ulang halaman.";
+
+        if (spinner) {
+          spinner.style.display = "none";
+        }
+      }, 25000);
+
+      frame.src = APP_URL;
+    } else {
+      loadingTitle.textContent = "URL aplikasi belum diatur";
+
+      loadingSubtitle.textContent =
+        "Masukkan URL Web App Catatan Kiriman Furnifan yang benar " +
+        "di dalam kode index.html.";
+
+      if (spinner) {
+        spinner.style.display = "none";
+      }
+    }
+
+    /* MENERIMA PROMPT INSTALASI PWA */
     window.addEventListener("beforeinstallprompt", (event) => {
       event.preventDefault();
       installPrompt = event;
-      installBtn.style.display = "block";
     });
 
+    /* TOMBOL INSTALASI */
     installBtn.addEventListener("click", async () => {
-      if (!installPrompt) {
-        alert(
-          "Jika tombol instalasi tidak tersedia, gunakan menu browser: " +
-          "Instal aplikasi atau Tambahkan ke Layar Utama."
-        );
+      if (installPrompt) {
+        const promptEvent = installPrompt;
+        installPrompt = null;
+        installBtn.disabled = true;
+
+        try {
+          await promptEvent.prompt();
+          await promptEvent.userChoice;
+        } catch (error) {
+          console.error("Instalasi PWA gagal:", error);
+        } finally {
+          installBtn.disabled = false;
+        }
+
         return;
       }
 
-      installPrompt.prompt();
-      await installPrompt.userChoice;
-      installPrompt = null;
-      installBtn.style.display = "none";
+      const ua = navigator.userAgent || "";
+      const isIOS = /iphone|ipad|ipod/i.test(ua);
+      const isAndroid = /android/i.test(ua);
+
+      if (isIOS) {
+        alert(
+          "Untuk memasang Catatan Kiriman Furnifan di iPhone/iPad:\n\n" +
+          "1. Buka situs ini melalui Safari.\n" +
+          "2. Tekan tombol Bagikan.\n" +
+          "3. Pilih Tambahkan ke Layar Utama.\n" +
+          "4. Tekan Tambah."
+        );
+      } else if (isAndroid) {
+        alert(
+          "Untuk memasang Catatan Kiriman Furnifan:\n\n" +
+          "1. Buka situs ini melalui Chrome.\n" +
+          "2. Buka menu ⋮.\n" +
+          "3. Pilih Instal aplikasi atau Tambahkan ke layar utama."
+        );
+      } else {
+        alert(
+          "Untuk memasang Catatan Kiriman Furnifan di PC:\n\n" +
+          "1. Buka situs ini melalui Chrome atau Edge.\n" +
+          "2. Buka menu browser.\n" +
+          "3. Pilih Instal aplikasi atau Install this site as an app."
+        );
+      }
     });
 
     window.addEventListener("appinstalled", () => {
-      installBtn.style.display = "none";
       installPrompt = null;
     });
 
+    /* SERVICE WORKER KHUSUS CATATAN KIRIMAN */
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker.register("./sw.js", {
