@@ -1,17 +1,16 @@
-
 "use strict";
 
-const CACHE_NAME = "furnifan-catatan-kiriman-pwa-v1";
+const CACHE_NAME = "furnifan-catatan-kiriman-pwa-v2";
 
 const APP_FILES = [
   "./",
   "./index.html",
   "./manifest.json",
-  "./icon-192.png",
-  "./icon-512.png"
+  "./icon-192.png?v=2",
+  "./icon-512.png?v=2"
 ];
 
-/* MEMASANG SERVICE WORKER */
+/* MEMASANG SERVICE WORKER BARU */
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -20,20 +19,20 @@ self.addEventListener("install", (event) => {
   );
 });
 
-/* MENGAKTIFKAN SERVICE WORKER BARU */
+/* MENGAKTIFKAN VERSI BARU DAN MEMBERSIHKAN CACHE LAMA */
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys()
-      .then((cacheNames) => {
-        return Promise.all(
+      .then((cacheNames) =>
+        Promise.all(
           cacheNames
             .filter((name) =>
               name.startsWith("furnifan-catatan-kiriman-pwa-") &&
               name !== CACHE_NAME
             )
             .map((name) => caches.delete(name))
-        );
-      })
+        )
+      )
       .then(() => self.clients.claim())
   );
 });
@@ -46,10 +45,11 @@ self.addEventListener("fetch", (event) => {
 
   const url = new URL(request.url);
 
-  // Hanya mengelola file dari repositori PWA ini.
-  // Tidak meng-cache permintaan Google Apps Script.
+  // Hanya mengelola file dari origin GitHub Pages ini.
+  // Permintaan Google Apps Script tidak di-cache.
   if (url.origin !== self.location.origin) return;
 
+  // Navigasi: utamakan versi terbaru dari jaringan.
   if (request.mode === "navigate") {
     event.respondWith(
       fetch(request)
@@ -59,9 +59,9 @@ self.addEventListener("fetch", (event) => {
 
             caches.open(CACHE_NAME)
               .then((cache) => cache.put(request, copy))
-              .catch((error) => {
-                console.warn("Cache halaman gagal:", error);
-              });
+              .catch((error) =>
+                console.warn("Cache halaman gagal:", error)
+              );
           }
 
           return response;
@@ -90,9 +90,11 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Untuk file pendukung, utamakan cache jika tersedia.
+  // File pendukung: gunakan cache, lalu perbarui dari jaringan.
   event.respondWith(
-    caches.match(request).then((cached) => {
+    (async () => {
+      const cached = await caches.match(request);
+
       const networkRequest = fetch(request)
         .then((response) => {
           if (response.ok) {
@@ -100,15 +102,15 @@ self.addEventListener("fetch", (event) => {
 
             caches.open(CACHE_NAME)
               .then((cache) => cache.put(request, copy))
-              .catch((error) => {
-                console.warn("Pembaruan cache gagal:", error);
-              });
+              .catch((error) =>
+                console.warn("Pembaruan cache gagal:", error)
+              );
           }
 
           return response;
         });
 
       return cached || networkRequest;
-    })
+    })()
   );
 });
