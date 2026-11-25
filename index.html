@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-  <meta name="theme-color" content="#0f766e">
+  <meta name="theme-color" content="#244b99">
   <meta name="description" content="Catatan Kiriman Pabrik Furnifan Mebel Surabaya">
 
   <title>Catatan Kiriman Furnifan</title>
@@ -16,11 +16,11 @@
 
   <style>
     :root {
-      --primary: #0f766e;
-      --primary-dark: #115e59;
-      --primary-light: #2dd4bf;
-      --pink: #ec4899;
-      --pink-light: #fbcfe8;
+      --primary: #315fbd;
+      --primary-dark: #244b99;
+      --primary-light: #7fa5f5;
+      --pink: #315fbd;
+      --pink-light: #dbe7ff;
       --white: #ffffff;
     }
 
@@ -79,8 +79,8 @@
       gap: 15px;
       padding: 24px;
       text-align: center;
-      background: #f0fdfa;
-      color: #134e4a;
+      background: #f3f6fb;
+      color: #172033;
     }
 
     #loading.hidden {
@@ -99,7 +99,7 @@
         var(--primary-dark),
         var(--primary-light)
       );
-      box-shadow: 0 8px 25px rgba(15, 118, 110, .20);
+      box-shadow: 0 8px 25px rgba(36, 75, 153, .20);
       position: relative;
     }
 
@@ -123,7 +123,7 @@
     .loading-title {
       font-size: 17px;
       font-weight: 700;
-      color: var(--primary-dark);
+      color: #244b99;
     }
 
     .loading-subtitle {
@@ -136,9 +136,9 @@
     .spinner {
       width: 29px;
       height: 29px;
-      border: 3px solid #ccfbf1;
-      border-top-color: var(--primary);
-      border-right-color: var(--pink);
+      border: 3px solid #e3eaf5;
+      border-top-color: #315fbd;
+      border-right-color: #7fa5f5;
       border-radius: 50%;
       animation: spin .8s linear infinite;
     }
@@ -165,9 +165,9 @@
       border-radius: 50px;
       background: linear-gradient(
         135deg,
-        #115e59 0%,
-        #0f766e 65%,
-        #159e91 100%
+        #244b99 0%,
+        #315fbd 65%,
+        #4778d0 100%
       );
       color: #ffffff;
       font-family: inherit;
@@ -175,8 +175,8 @@
       font-weight: 700;
       letter-spacing: .1px;
       box-shadow:
-        0 7px 22px rgba(15, 118, 110, .28),
-        0 0 0 2px rgba(251, 207, 232, .55);
+        0 7px 22px rgba(36, 75, 153, .28),
+        0 0 0 2px rgba(219, 231, 255, .65);
       cursor: pointer;
       transition: transform .2s, box-shadow .2s, opacity .2s;
     }
@@ -196,8 +196,8 @@
     #installBtn:hover {
       transform: translateY(-3px);
       box-shadow:
-        0 10px 27px rgba(15, 118, 110, .34),
-        0 0 0 3px rgba(251, 207, 232, .7);
+        0 10px 27px rgba(36, 75, 153, .34),
+        0 0 0 3px rgba(219, 231, 255, .8);
     }
 
     #installBtn:active {
@@ -275,7 +275,7 @@
                 stroke-width="1.7"
                 stroke-linejoin="round"/>
           <path d="M8 9H8.01M12 9H12.01M16 9H16.01"
-                stroke="#fbcfe8"
+                stroke="#dbe7ff"
                 stroke-width="2.5"
                 stroke-linecap="round"/>
         </svg>
@@ -331,7 +331,7 @@
       Jangan gunakan URL Daftar Harga Furnifan.
     */
     const APP_URL =
-      "https://script.google.com/macros/s/AKfycbwT-SJQEKQTu-pjM37zwz3HmUQGZLRDK23A0fW1Y_kN623jDMO4rWxJm7cI5JX0589i/exec";
+      "https://script.google.com/macros/s/AKfycbySG7PS5GnN_br6iNm_URQFS4l6g7VsThbAXB0-SEiV9Obs_WjKzezZ4wyiGCjaSBqw/exec";
 
     const frame = document.getElementById("appFrame");
     const loading = document.getElementById("loading");
